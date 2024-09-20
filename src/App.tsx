@@ -6,6 +6,7 @@ import Subheader from './components/Subheader';
 import PLP from './components/Plplista';
 import PromoImage from './components/ImagenInicio';
 import Footer from './components/Footer';
+import Filter from './components/Filter';
 
 
 const App: React.FC = () => {
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           </Routes>
           <PromoImage imageId={1}/>
           <PromoImage imageId={2}/>
+          <Filter></Filter>
           <PLP /> 
           <ProductosDestacados />
 
