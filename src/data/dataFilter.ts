@@ -1,4 +1,4 @@
-export const filtros = [
+export const filters = [
     {
       categoria: "Tecnología",
       opciones: [
