@@ -8,27 +8,23 @@
   <title>NovaMart</title>
   <script type="text/javascript">
     (function(l) {
-      // Verificamos si la URL ya contiene '/?/' para evitar redirecciones duplicadas
-      if (l.href.indexOf('/?/') === -1) {
-        // Guardamos la ruta original antes de hacer cambios
-        var originalPath = l.pathname;
-        
-        // Verificamos si hay algún parámetro de búsqueda y agregamos adecuadamente
-        var search = l.search ? l.search.replace(/^\?/, '') : '';
-  
-        // Generamos la nueva URL con el formato adecuado para GitHub Pages
+      // Verificar si la ruta ya contiene /?/ para evitar duplicados
+      if (l.href.indexOf('/?/') === -1 && !sessionStorage.getItem('redirected')) {
+        // Generar la nueva URL con /?/
         var newUrl = l.protocol + '//' + l.hostname + 
                      (l.port ? ':' + l.port : '') + 
-                     originalPath + '/?/' + 
-                     originalPath.slice(1) + 
-                     (search ? '?'+ search : '') + 
-                     l.hash;
+                     l.pathname + '/?/' + l.pathname.slice(1) + 
+                     l.search + l.hash;
   
-        // Reemplazamos la URL actual con la nueva
+        // Establecer un flag en sessionStorage para evitar bucles
+        sessionStorage.setItem('redirected', 'true');
+  
+        // Reemplazar la URL con la nueva utilizando replaceState
         window.history.replaceState(null, null, newUrl);
-      } 
+      }
     }(window.location));
-  </script>  
+  </script>
+   
   <script type="module" crossorigin src="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-BG3UJO1B.js"></script>
   <link rel="stylesheet" crossorigin href="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-By1DlbLO.css">
 </head>

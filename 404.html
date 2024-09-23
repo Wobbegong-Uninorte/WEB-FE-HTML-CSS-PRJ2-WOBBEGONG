@@ -5,20 +5,23 @@
     <title>Redirecting...</title>
     <script type="text/javascript">
       (function(l) {
-        // Verificamos si ya estamos en la ruta esperada para evitar bucles
-        if (l.pathname.indexOf('/?/') === -1 && !sessionStorage.getItem('redirected404')) {
-          // Generamos la nueva URL con el formato adecuado para GitHub Pages
-          var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                       l.pathname + '/?/' + l.pathname.slice(1) + l.search + l.hash;
-
-          // Guardamos en sessionStorage que ya se ha realizado la redirección desde 404.html
-          sessionStorage.setItem('redirected404', 'true');
-
-          // Reemplazamos la URL con el nuevo formato usando window.location.replace
-          l.replace(newUrl);
+        // Verificar si la ruta ya contiene /?/ para evitar duplicados
+        if (l.href.indexOf('/?/') === -1 && !sessionStorage.getItem('redirected')) {
+          // Generar la nueva URL con /?/
+          var newUrl = l.protocol + '//' + l.hostname + 
+                       (l.port ? ':' + l.port : '') + 
+                       l.pathname + '/?/' + l.pathname.slice(1) + 
+                       l.search + l.hash;
+    
+          // Establecer un flag en sessionStorage para evitar bucles
+          sessionStorage.setItem('redirected', 'true');
+    
+          // Reemplazar la URL con la nueva utilizando replaceState
+          window.history.replaceState(null, null, newUrl);
         }
       }(window.location));
     </script>
+    
   </head>
   <body>
   </body>
