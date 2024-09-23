@@ -13,8 +13,7 @@
       if (l.pathname.indexOf('/?/') === -1 && l.pathname.split('/').length > pathSegmentsToKeep + 1) {
         // Reemplazamos la URL con el formato adecuado para GitHub Pages
         var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                     l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/'+
-                     (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+                     l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/'
                      l.hash;
 
         // Verificamos si la URL ya está en el formato deseado para evitar redirecciones innecesarias
