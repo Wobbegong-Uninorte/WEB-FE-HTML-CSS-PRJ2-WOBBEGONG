@@ -8,26 +8,27 @@
   <title>NovaMart</title>
   <script type="text/javascript">
     (function(l) {
-      // Verificamos si ya estamos en la ruta esperada para evitar bucles y rutas duplicadas
-      var pathname = l.pathname;
-      var isAlreadyRedirected = pathname.indexOf('/?/') !== -1; // Verifica si ya contiene /?/
-      var originalPath = pathname.split('/?/')[0]; // Obtiene la parte de la ruta antes de /?/
+      // Verificamos si la URL ya contiene '/?/' para evitar redirecciones duplicadas
+      if (l.href.indexOf('/?/') === -1) {
+        // Guardamos la ruta original antes de hacer cambios
+        var originalPath = l.pathname;
+        
+        // Verificamos si hay algún parámetro de búsqueda y agregamos adecuadamente
+        var search = l.search ? l.search.replace(/^\?/, '') : '';
   
-      // Si no está redirigido y la longitud del pathname es mayor a la longitud del path original
-      if (!isAlreadyRedirected && pathname.length > originalPath.length) {
         // Generamos la nueva URL con el formato adecuado para GitHub Pages
-        var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                     originalPath + '/?/' + pathname.slice(1) + l.search + l.hash;
+        var newUrl = l.protocol + '//' + l.hostname + 
+                     (l.port ? ':' + l.port : '') + 
+                     originalPath + '/?/' + 
+                     originalPath.slice(1) + 
+                     (search ? '?'+ search : '') + 
+                     l.hash;
   
-        // Guardamos en sessionStorage que ya se ha realizado la redirección
-        sessionStorage.setItem('redirected', 'true');
-  
-        // Reemplazamos la URL con el nuevo formato usando window.location.replace
-        l.replace(newUrl);
-      }
+        // Reemplazamos la URL actual con la nueva
+        window.history.replaceState(null, null, newUrl);
+      } 
     }(window.location));
   </script>  
-  
   <script type="module" crossorigin src="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-BG3UJO1B.js"></script>
   <link rel="stylesheet" crossorigin href="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-By1DlbLO.css">
 </head>
