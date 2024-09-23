@@ -6,11 +6,14 @@
     <script type="text/javascript">
       (function(l) {
         // Verificamos si ya estamos en la ruta esperada para evitar bucles
-        if (l.pathname.indexOf('/?/') === -1) {
-          // Generamos la nueva URL con el formato de hash adecuado para GitHub Pages
+        if (l.pathname.indexOf('/?/') === -1 && !sessionStorage.getItem('redirected404')) {
+          // Generamos la nueva URL con el formato adecuado para GitHub Pages
           var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
                        l.pathname + '/?/' + l.pathname.slice(1) + l.search + l.hash;
-          
+
+          // Guardamos en sessionStorage que ya se ha realizado la redirección desde 404.html
+          sessionStorage.setItem('redirected404', 'true');
+
           // Reemplazamos la URL con el nuevo formato usando window.location.replace
           l.replace(newUrl);
         }
