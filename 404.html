@@ -4,19 +4,21 @@
     <meta charset="utf-8">
     <title>Single Page Apps for GitHub Pages</title>
     <script type="text/javascript">
-      var pathSegmentsToKeep = 0; // Número de segmentos de la ruta a conservar (0 = raíz)
+      // Número de segmentos de la ruta a conservar (0 significa mantener el dominio raíz)
+      var pathSegmentsToKeep = 2; // Mantener dos segmentos: "PLP" y "subcategory"
 
       var l = window.location;
-      
-      // Verificamos si la URL ya ha sido transformada usando un marcador en el hash
-      if (l.hash.indexOf('#redirected') === -1) {
+
+      // Verificamos si ya estamos en la ruta esperada, para evitar bucles infinitos
+      if (l.pathname.indexOf('/?/') === -1 && l.pathname.split('/').length > pathSegmentsToKeep + 1) {
+        // Reemplazamos la URL con el formato adecuado para GitHub Pages
         var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
                      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-                     l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+                     l.pathname.split('/').slice(pathSegmentsToKeep + 1).join('/').replace(/&/g, '~and~') +
                      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-                     l.hash + '#redirected'; // Añadimos el hash #redirected para evitar el bucle
+                     l.hash;
 
-        // Redireccionamos solo si la URL no es la misma que la nueva
+        // Verificamos si la URL ya está en el formato deseado para evitar redirecciones innecesarias
         if (l.href !== newUrl) {
           l.replace(newUrl);
         }
