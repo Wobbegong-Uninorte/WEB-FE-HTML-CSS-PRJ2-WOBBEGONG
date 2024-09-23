@@ -4,17 +4,22 @@
     <meta charset="utf-8">
     <title>Single Page Apps for GitHub Pages</title>
     <script type="text/javascript">
-      var pathSegmentsToKeep = 0;
+      // Número de segmentos de la ruta a conservar (0 significa mantener el dominio raíz)
+      var pathSegmentsToKeep = 2; // Mantener dos segmentos: "PLP" y "subcategory"
 
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
-
+      
+      // Verificamos si la URL tiene un segmento de ruta no válido para GitHub Pages
+      if (l.pathname.split('/').length > pathSegmentsToKeep + 1) {
+        // Reemplazamos la URL con el formato adecuado para GitHub Pages
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.split('/').slice(pathSegmentsToKeep + 1).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      }
     </script>
   </head>
   <body>
