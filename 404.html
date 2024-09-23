@@ -8,14 +8,14 @@
       var pathSegmentsToKeep = 2; // Mantener dos segmentos: "PLP" y "subcategory"
       var l = window.location;
 
-      // Verificamos si la URL ya ha sido transformada para evitar redirecciones en bucle
-      if (!l.search.includes('no-redirect') && l.pathname.indexOf('/?/') === -1 && l.pathname.split('/').length > pathSegmentsToKeep + 1) {
+      // Verificamos si la URL ya ha sido transformada usando un marcador en el hash
+      if (!l.hash.includes('#redirected') && l.pathname.indexOf('/?/') === -1 && l.pathname.split('/').length > pathSegmentsToKeep + 1) {
         // Reemplazamos la URL con el formato adecuado para GitHub Pages
         var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
                      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
                      l.pathname.split('/').slice(pathSegmentsToKeep + 1).join('/').replace(/&/g, '~and~') +
-                     (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-                     l.hash + (l.search ? '' : '?no-redirect'); // Agregamos indicador de no redirección
+                     (l.search ? l.search : '') + 
+                     l.hash + '#redirected'; // Agregamos indicador de redirección en el hash
 
         // Redireccionamos solo si la URL no es la misma que la nueva
         if (l.href !== newUrl) {
