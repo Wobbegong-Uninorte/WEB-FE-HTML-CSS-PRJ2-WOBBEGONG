@@ -3,7 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0;URL='./index.html'" />
+    <script type="text/javascript">
+      (function(l) {
+        // Verificamos si ya estamos en la ruta esperada para evitar bucles
+        if (l.pathname.indexOf('/?/') === -1) {
+          // Generamos la nueva URL con el formato de hash adecuado para GitHub Pages
+          var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+                       l.pathname + '/?/' + l.pathname.slice(1) + l.search + l.hash;
+          
+          // Reemplazamos la URL con el nuevo formato usando window.location.replace
+          l.replace(newUrl);
+        }
+      }(window.location));
+    </script>
   </head>
   <body>
   </body>
