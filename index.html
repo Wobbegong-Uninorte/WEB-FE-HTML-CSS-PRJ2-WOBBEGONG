@@ -8,11 +8,16 @@
   <title>NovaMart</title>
   <script type="text/javascript">
     (function(l) {
-      // Verificamos si ya estamos en la ruta esperada para evitar bucles y si la redirección ya se realizó
-      if (l.pathname.indexOf('/?/') === -1 && !sessionStorage.getItem('redirected')) {
+      // Verificamos si ya estamos en la ruta esperada para evitar bucles y rutas duplicadas
+      var pathname = l.pathname;
+      var isAlreadyRedirected = pathname.indexOf('/?/') !== -1; // Verifica si ya contiene /?/
+      var originalPath = pathname.split('/?/')[0]; // Obtiene la parte de la ruta antes de /?/
+  
+      // Si no está redirigido y la longitud del pathname es mayor a la longitud del path original
+      if (!isAlreadyRedirected && pathname.length > originalPath.length) {
         // Generamos la nueva URL con el formato adecuado para GitHub Pages
         var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                     l.pathname + '/?/' + l.pathname.slice(1) + l.search + l.hash;
+                     originalPath + '/?/' + pathname.slice(1) + l.search + l.hash;
   
         // Guardamos en sessionStorage que ya se ha realizado la redirección
         sessionStorage.setItem('redirected', 'true');
@@ -21,7 +26,7 @@
         l.replace(newUrl);
       }
     }(window.location));
-  </script>
+  </script>  
   
   <script type="module" crossorigin src="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-BG3UJO1B.js"></script>
   <link rel="stylesheet" crossorigin href="/WEB-FE-HTML-CSS-PRJ2-WOBBEGONG/assets/index-By1DlbLO.css">
